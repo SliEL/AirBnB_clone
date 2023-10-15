@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""Console Module"""
 import cmd
 import re
 from models.base_model import BaseModel
@@ -12,6 +13,7 @@ from models.review import Review
 
 
 class HBNBCommand(cmd.Cmd):
+    """HBNBCommand class"""
     prompt = '(hbnb) '
 
     def do_quit(self, arg):
@@ -27,6 +29,7 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, arg):
+        """create command to create new instance"""
         if not arg:
             print("** class name missing **")
         if arg in globals():
@@ -37,6 +40,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
 
     def do_show(self, args):
+        """show command to show the instances"""
         args = args.split()
         if len(args) < 1:
             print("** class name missing **")
@@ -52,6 +56,7 @@ class HBNBCommand(cmd.Cmd):
             print("** no instance found **")
 
     def do_destroy(self, args):
+        """destroy command to destroy an object"""
         args = args.split()
         if len(args) < 1:
             print("** class name missing **")
@@ -68,6 +73,7 @@ class HBNBCommand(cmd.Cmd):
             print("** no instance found **")
 
     def do_all(self, class_name):
+        """all command to list all the objects"""
         if class_name == "":
             print([str(value) for key, value in storage.all().items()])
         elif class_name not in globals():
@@ -81,6 +87,7 @@ class HBNBCommand(cmd.Cmd):
             print(list)
 
     def do_update(self, args):
+        """update command to make updates on objects"""
         args = args.split()
         if len(args) < 1:
             print("** class name missing **")
@@ -101,20 +108,15 @@ class HBNBCommand(cmd.Cmd):
                 print("** no instance found **")
 
     def do_count(self, class_name):
+        """Count command to count the numbers of give classes"""
         count = 0
         for key, value in storage.all().items():
             if key.split(".")[0] == class_name:
                 count += 1
         print(count)
 
-    def get_arg(self, arg):
-        match = re.search(r'\("([^"]+)"\)', arg)
-        if match:
-            return match.group(1)
-        else:
-            return None
-
     def default(self, command):
+        """default methode !"""
         parts = command.split(".")
         class_name = parts[0]
         pattern = r'^(\w+)\.(\w+)\("([\w\s,-]*)"?\)$'

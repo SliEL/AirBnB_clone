@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""file_storage module"""
 import json
 import os
 from models.base_model import BaseModel
@@ -11,6 +12,7 @@ from models.review import Review
 
 
 class FileStorage():
+    """FileStorage class"""
     class_dict = {
         "BaseModel": BaseModel,
         "User": User,
