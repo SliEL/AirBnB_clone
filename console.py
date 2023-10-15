@@ -92,6 +92,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             print(objects_dict[f"{parsed[0]}.{parsed[1]}"])
 
+
     def do_destroy(self, arg):
         """Delete a class instance of a given id.
         Usage: destroy <class> <id> or <class>.destroy(<id>)
@@ -178,16 +179,6 @@ class HBNBCommand(cmd.Cmd):
                     obj.__dict__[key] = val
         storage.save()
 
-    # def do_count(self, arg):
-    #     """Retrieves the number of instances of a given class.
-    #     Usage: count <class> or <class>.count()
-    #     """
-    #     parsed = parse(arg)
-    #     count = 0
-    #     for obj in storage.all().values():
-    #         if parsed[0] == obj.__class__.__name__:
-    #             count += 1
-    #     print(count)
 
     def do_count(self, arg):
         """Retrieves the number of instances of a given class.
@@ -211,53 +202,27 @@ class HBNBCommand(cmd.Cmd):
                 count += 1
         print(count)
 
-    # def default(self, arg):
-    #     """Default behavior for cmd module when input is invalid"""
-    #     argdict = {
-    #         "all": self.do_all,
-    #         "show": self.do_show,
-    #         "destroy": self.do_destroy,
-    #         "count": self.do_count,
-    #         "update": self.do_update
-    #     }
-    #     match = re.search(r".", arg)
-    #     if match is not None:
-    #         argl = [arg[:match.span()[0]], arg[match.span()[1]:]]
-    #         match = re.search(r"((.?))", argl[1])
-    #         if match is not None:
-    #             command = [argl[1][:match.span()[0]], match.group()[1:-1]]
-    #             if command[0] in argdict.keys():
-    #                 call = f"{argl[0]} {command[1]}"
-    #                 return argdict[command[0]](call)
-    #     print(f"** Unknown syntax: {arg}")
-    #     return False
+    def default(self, arg):
+        """Default behavior for cmd module when input is invalid"""
+        argdict = {
+            "all": self.do_all,
+            "show": self.do_show,
+            "destroy": self.do_destroy,
+            "count": self.do_count,
+            "update": self.do_update
+        }
+        match = re.search(r"\.", arg)
+        if match is not None:
+            argl = [arg[:match.span()[0]], arg[match.span()[1]:]]
+            match = re.search(r"\((.*?)\)", argl[1])
+            if match is not None:
+                command = [argl[1][:match.span()[0]], match.group()[1:-1]]
+                if command[0] in argdict.keys():
+                    call = "{} {}".format(argl[0], command[1])
+                    return argdict[command[0]](call)
+        print("*** Unknown syntax: {}".format(arg))
+        return False
     
-
-    def default(self, command):
-        """default methode !"""
-        parts = command.split(".")
-        class_name = parts[0]
-        pattern = r'^(\w+).(\w+)("([^"])"?)$'
-
-        match = re.match(pattern, command)
-        id, method = None, None
-        if match:
-            id = match.group(3)
-            method = match.group(2)
-            str = "{} {}".format(class_name, id)
-            arguments = re.split(r',\s|\s*,', match.group(3))
-            update_arguments = f'{class_name} {" ".join(arguments)}'
-        if len(parts) == 2:
-            if parts[1] == "all()":
-                self.do_all(class_name)
-            elif parts[1] == "count()":
-                self.do_count(class_name)
-            elif method == "show":
-                self.do_show(str)
-            elif method == "destroy":
-                self.do_destroy(str)
-            elif method == "update":
-                self.do_update
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
