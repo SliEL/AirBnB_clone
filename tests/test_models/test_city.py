@@ -136,7 +136,5 @@ class TestCity_save(unittest.TestCase):
             self.assertIn(city_id, f.read())
 
 
-
-
 if __name__ == "__main__":
     unittest.main()

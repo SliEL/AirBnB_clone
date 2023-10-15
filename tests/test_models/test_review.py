@@ -142,7 +142,5 @@ class TestReview_save(unittest.TestCase):
             self.assertIn(rev_id, f.read())
 
 
-
-
 if __name__ == "__main__":
     unittest.main()

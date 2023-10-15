@@ -5,6 +5,7 @@ import models
 from datetime import datetime
 from uuid import uuid4
 
+
 class BaseModel:
     """Cls that represents the BaseModel for airbnb project."""
 
@@ -19,7 +20,7 @@ class BaseModel:
         tform = "%Y-%m-%dT%H:%M:%S.%f"
         self.created_at = datetime.today()
         self.updated_at = datetime.today()
-        
+
         if (len(kwargs) != 0):
             for key, val in kwargs.items():
                 if key == "created_at" or key == "updated_at":
@@ -28,8 +29,7 @@ class BaseModel:
                     self.__dict__[key] = val
         else:
             models.storage.new(self)
-    
-    
+
     def __str__(self):
         """Returns the str representation of the BaseModel instance."""
         cls_name = self.__class__.__name__
@@ -40,10 +40,8 @@ class BaseModel:
         self.updated_at = datetime.today()
         models.storage.save()
 
-    
     def to_dict(self):
-        """Returns a dictionary containing all 
-
+        """Returns a dictionary containing all
         keys/values of __dict__ of the instance.
         """
         ret_dict = self.__dict__.copy()

@@ -75,7 +75,8 @@ class TestBaseModel_instantiation(unittest.TestCase):
     def test_instantiation_with_args_and_kwargs(self):
         dt = datetime.today()
         dt_iso = dt.isoformat()
-        basemodel = BaseModel("12", id="345", created_at=dt_iso, updated_at=dt_iso)
+        basemodel = BaseModel(
+            "12", id="345", created_at=dt_iso, updated_at=dt_iso)
         self.assertEqual(basemodel.id, "345")
         self.assertEqual(basemodel.created_at, dt)
         self.assertEqual(basemodel.updated_at, dt)
@@ -131,8 +132,6 @@ class TestBaseModel_save(unittest.TestCase):
         basemodel_id = "BaseModel." + basemodel.id
         with open("file.json", "r") as f:
             self.assertIn(basemodel_id, f.read())
-
-
 
 
 if __name__ == "__main__":

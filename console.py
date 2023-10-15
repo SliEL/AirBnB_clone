@@ -13,12 +13,10 @@ import re
 from shlex import split
 
 
-
-
 def parse(input_str):
     curly = re.search(r"\{(.*?)\}", input_str)
     square = re.search(r"\[(.*?)\]", input_str)
-    
+
     if curly is None:
         if square is None:
             return [word.strip(",") for word in input_str.split()]
@@ -36,20 +34,20 @@ def parse(input_str):
 
 class HBNBCommand(cmd.Cmd):
     """Cls that contains the entry point of the command interpreter.
-    
+
     Attributes:
         prompt (str): the interpreter prompt.
     """
     prompt = "(hbnb) "
     __classes = {
-            "BaseModel",
-            "User",
-            "State",
-            "City",
-            "Place",
-            "Amenity",
-            "Review"
-        }
+        "BaseModel",
+        "User",
+        "State",
+        "City",
+        "Place",
+        "Amenity",
+        "Review"
+    }
 
     def emptyline(self):
         """Do nothing when receiving empty line"""
@@ -59,7 +57,7 @@ class HBNBCommand(cmd.Cmd):
         """Quit command line to exit the program."""
         return True
 
-    def do_EOF(self,arg):
+    def do_EOF(self, arg):
         """EOF signal to exit the program."""
         print("")
         return True
@@ -79,7 +77,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, arg):
         """Print the string representation of a class instance of a given id.
-        Usage: show <class> <id> or <class>.show(<id>). 
+    Usage: show <class> <id> or <class>.show(<id>).
         """
         parsed = parse(arg)
         objects_dict = storage.all()
@@ -94,7 +92,6 @@ class HBNBCommand(cmd.Cmd):
         else:
             print(objects_dict[f"{parsed[0]}.{parsed[1]}"])
 
-    
     def do_destroy(self, arg):
         """Delete a class instance of a given id.
         Usage: destroy <class> <id> or <class>.destroy(<id>)
@@ -130,7 +127,6 @@ class HBNBCommand(cmd.Cmd):
                     obj_list.append(obj.__str__())
             print(obj_list)
 
-    
     def do_update(self, arg):
         """Updates a class instance of a given id by adding or updating
         a given attribute key/value pair or dictionary.
@@ -174,14 +170,14 @@ class HBNBCommand(cmd.Cmd):
             obj = objdict[f"{parsed[0]}.{parsed[1]}"]
             for key, val in eval(parsed[2]).items():
                 if (key in obj.__class__.__dict__.keys() and
-                        type(obj.__class__.__dict__[key]) in {str, int, float}):
+                        type(
+                        obj.__class__.__dict__[key]) in {str, int, float}):
                     valtype = type(obj.__class__.__dict__[key])
                     obj.__dict__[key] = valtype(val)
                 else:
                     obj.__dict__[key] = val
         storage.save()
 
-    
     def do_count(self, arg):
         """Retrieves the number of instances of a given class.
         Usage: count <class> or <class>.count()
@@ -192,6 +188,7 @@ class HBNBCommand(cmd.Cmd):
             if parsed[0] == obj.__class__.__name__:
                 count += 1
         print(count)
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()

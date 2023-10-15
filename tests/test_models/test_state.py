@@ -129,7 +129,5 @@ class TestState_save(unittest.TestCase):
             self.assertIn(state_id, f.read())
 
 
-
-
 if __name__ == "__main__":
     unittest.main()

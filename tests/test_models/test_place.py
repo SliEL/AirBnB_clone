@@ -190,6 +190,5 @@ class TestPlace_save(unittest.TestCase):
             self.assertIn(place_id, f.read())
 
 
-
 if __name__ == "__main__":
     unittest.main()
